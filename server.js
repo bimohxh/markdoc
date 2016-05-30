@@ -55,7 +55,12 @@ router.get('/help/:md', async (ctx, next) =>{
 
 
 router.get('/:end/:project/:doc/:md', async (ctx, next) =>{
-  let con = fs.readFileSync(__dirname + '/markdown/' + ctx.params.end + '/' + ctx.params.project + '/' + ctx.params.doc + '/' + ctx.params.md + '.md')
+  let docs = menu.menu4(ctx.params.end, ctx.params.project, ctx.params.doc)
+  let doc = _.find(docs, (item)=> {
+    return item.name == ctx.params.md
+  })
+  let name = doc.file || doc.name
+  let con = fs.readFileSync(__dirname + '/markdown/' + ctx.params.end + '/' + ctx.params.project + '/' + ctx.params.doc + '/' + name + '.md')
   await renderAction(ctx, 'home', 'doc', {con: con})
 });
 

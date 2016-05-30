@@ -26,5 +26,15 @@ module.exports =
         repo: 'git@git.coding.net:flashtd1/DPOpenAPI.git'
       }
     ]
+  },
+  {
+    name: 'Unity',
+    projects: [
+      {
+        name: '护墙板编辑器',
+        git: 'git@git.coding.net:dmagic/doc_Unity_BoardingEditor.git',
+        repo: 'git@git.coding.net:dmagic/BoardingEditor.git'
+      }
+    ]
   }
 ]

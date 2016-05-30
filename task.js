@@ -10,7 +10,7 @@ let makeDoc = ()=> {
   let total = projects.reduce((result, item)=> {
     return result + item.projects.length
   }, 0);
-  console.log('有' + total +'个项目需要更新')
+  console.log('有' + total + '个项目需要更新')
   return new Promise((resolve)=> {
     projects.forEach((pro)=> {
       let end = 'markdown/' + pro.name
