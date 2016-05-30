@@ -1,0 +1,16 @@
+doctype html
+html
+  include ../layout/header
+
+  body
+    include ../layout/nav
+    div.home-wraper
+      h2.title 技术分组
+      div.home-list
+        each item in menu.menu1
+          a(href="#{item.href}")= item.name
+
+    include ../layout/footer
+  
+  style.
+    body{background-color: #FAFAFA}

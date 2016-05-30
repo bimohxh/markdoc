@@ -1,0 +1,28 @@
+doctype html
+html
+  include ../layout/header
+
+  body
+    header
+      include ../layout/nav
+
+      nav.nav-doc
+        each item in menu.menu3(params.end, params.project)
+          a(href="#{item.href}")= item.name
+
+      //- h2= params.end
+
+    div.container
+      div.leftbar
+        div= params.doc
+        ul
+          each item in menu.menu4(params.end, params.project, params.doc)
+            li(data-action = '#{item.action}' class="#{item.name == params.md ? 'active' : ''} level-1" )
+              a(href="#{item.href}")= item.name
+      div.content
+        div#con
+
+    include ../layout/footer
+    script#tmpcon(type="text/html")
+      != con
+    script(src="/assets/js/sidebar.js" )
