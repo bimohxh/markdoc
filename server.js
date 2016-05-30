@@ -20,6 +20,7 @@ const Koa = require('koa'),
 // 静态文件服务
 app.use(mount('/assets', serve(__dirname + '/assets')));
 app.use(mount('/', serve(__dirname + '/markdown')));
+app.use(mount('/', serve(__dirname + '/help')));
 
 //视图处理
 app.use(views(__dirname + '/views', {
@@ -43,6 +44,14 @@ let renderAction = async (ctx, controller, action, extra)=> {
   }, extra))
 }
 
+router.get('/help', async (ctx, next) =>{
+  ctx.redirect(encodeURI('http://' + ctx.host + menu.menu6()[0].href))
+});
+
+router.get('/help/:md', async (ctx, next) =>{
+  let con = fs.readFileSync(__dirname + '/help/' + ctx.params.md + '.md')
+  await renderAction(ctx, 'home', 'help', {con: con})
+});
 
 
 router.get('/:end/:project/:doc/:md', async (ctx, next) =>{
@@ -55,6 +64,8 @@ router.get('/:end/:project/:doc/:md', async (ctx, next) =>{
 router.get('/', async (ctx, next) =>{
   await renderAction(ctx, 'home', 'index')
 });
+
+
 
 
 router.get('/:end', async (ctx, next) =>{
@@ -77,7 +88,12 @@ router.get('/:end/:project/:doc', async (ctx, next) =>{
   if (doc) {
     ctx.redirect(encodeURI('http://' + ctx.host + doc.href))
   }else{
-    await renderAction(ctx, 'home', 'doc')
+    if (ctx.params.doc.toLowerCase() == 'api') {
+      await renderAction(ctx, 'home', 'api')
+    }else{
+      await renderAction(ctx, 'home', 'doc')
+    }
+    
   }
   
 });

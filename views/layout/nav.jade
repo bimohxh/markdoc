@@ -1,4 +1,6 @@
 nav.top
-  a(href="/"): i.fa.fa-home
+  a(href="/" style="font-size: 20px"): i.fa.fa-home
   each item in menu.menu1
     a(href="#{item.href}")= item.name
+  
+  a.right(href="/help") 使用帮助

@@ -1,0 +1,21 @@
+doctype html
+html
+  include ../layout/header
+
+  body
+    header
+      include ../layout/nav
+
+      nav.nav-doc
+        each item in menu.menu3(params.end, params.project)
+          a(href="#{item.href}")= item.name
+
+      //- h2= params.end
+
+    div.content
+      div.list-item
+        each item in menu.menu5(params.end, params.project)
+          a(href="#{item.href}" target="_blank")= item.name
+      
+
+    include ../layout/footer

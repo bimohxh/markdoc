@@ -6,16 +6,12 @@ html
     header
       include ../layout/nav
 
-      nav.nav-doc
-        each item in menu.menu3(params.end, params.project)
-          a(href="#{item.href}")= item.name
-
-      //- h2= params.end
+      nav.nav-doc 帮助文档
 
     div.container
       div.leftbar
         ul
-          each item in menu.menu4(params.end, params.project, params.doc)
+          each item in menu.menu6()
             li(data-action = '#{item.action}' class="#{item.name == params.md ? 'active' : ''} level-1" )
               a(href="#{item.href}")= item.name
       div.content

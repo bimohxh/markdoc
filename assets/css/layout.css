@@ -1,9 +1,14 @@
-body{    font-family: 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
-    font-size: 15px;     color: #34495e;   -webkit-font-smoothing: antialiased; margin: 0; padding: 0;}
+body{
+  font-family: 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif; line-height: 25px;
+  font-size: 15px; color: #34495e;   -webkit-font-smoothing: antialiased; margin: 0; padding: 0;}
 body, a {
   color: #34495e;  
 }
 
+
+.right{
+  float: right;
+}
 
 header{
  background-color: #fff;    /* box-shadow: 0 0 4px rgba(0,0,0,0.25); */
@@ -22,14 +27,15 @@ header  .logo{
 
 /* 顶部导航 */
 nav.top {
-  border-bottom: #DDD 1px solid; padding: 10px; background-color: #FFF;
+  box-shadow: 0 1px 0 0 rgba(0,0,0,.05),0 2px 4px 0 rgba(0,0,0,.06); padding: 10px; background-color: #FFF;
 }
 
 nav.top a {
-   text-decoration: none;  margin: 10px; font-size: 12px;
+   text-decoration: none;  margin: 0 10px; font-size: 12px;
 }
+
 nav.nav-doc {
-  border-bottom: #DDD 1px solid; padding: 20px; background-color: #FFF; text-align: center;    background-color: #F3F3F3;
+   padding: 20px; text-align: center; margin-top: 20px;
 }
 
 nav.nav-doc a {
@@ -127,4 +133,19 @@ table tr td .progress {
 
 table tbody tr:nth-of-type(odd){
   background-color: #f9f9f9;
+}
+
+.content{
+  width: 800px; margin: 0 auto;
+}
+/**
+ * 列表
+ */
+.list-item {
+  border: #DDD 1px solid;  border-bottom: 0;
+}
+
+.list-item  a{
+  border-bottom: #DDD 1px solid; display: block; height: 100%; text-decoration: none; color: #333;
+  padding:  20px;
 }
