@@ -1,0 +1,137 @@
+doctype html
+html
+  include ../layout/header
+
+  body
+    header
+      include ../layout/nav
+
+      nav.nav-doc: h4 项目配置
+
+      div.content.config-wraper
+        div.list-item
+          div(v-for="end in cs")
+            div.item.es(href="#")
+              span(v-show="end.action == 'normal'") {{end.name}}
+              input.form-control(v-model="end.name" v-show="end.action == 'edit'")
+              span.oper(v-show="end.action == 'normal'")
+                i.fa.fa-pencil(@click="switchToEdit(end)")
+                i.fa.fa-plus(@click="addP(end)" title="添加项目")
+                i.fa.fa-trash(@click="destroy(end)" title="删除终端")
+
+              span.oper(v-show="end.action == 'edit'")
+                i.fa.fa-save(@click="update(end)")
+            
+            div.item.ps(href="#" v-for="p in end.projects")
+              span(v-show="p.action != 'edit'") {{p.name}}
+              div(v-show="p.action == 'edit'")
+                p
+                  span 项目名称：
+                  input.form-control(type="text" v-model="p.name")
+                p
+                  span 文档地址：
+                  input.form-control(type="text" v-model="p.git")
+                p
+                  span 项目地址：
+                  input.form-control(type="text" v-model="p.repo")  
+                button.btn(@click="updateP(end, p)") 保存  
+              span.oper(v-show="p.action != 'edit'")
+                i.fa.fa-pencil(@click="editP(end, p)" title="修改项目")
+                i.fa.fa-trash(@click="destroyP(end, p)" title="删除项目")
+
+              
+
+          a.text-center.item(href="javascript:void(0)" @click="add()")
+            i.fa.fa-plus
+            | 添加终端
+        
+
+    include ../layout/footer
+
+    script.
+      $.post('/config', {}, function(data){
+        data.forEach(function(item){
+          item.action = 'normal'
+          item.projects.forEach(function(p){
+            p.action = 'normal'
+          })
+        })
+        mvvm.$set('cs', data)
+      })
+
+      /**
+       * 进入编辑状态
+       */
+      mvvm.switchToEdit = function(item){
+        item.action = 'edit'
+      }
+
+      /**
+       * 修改端配置
+       */
+      mvvm.update = function(item){
+        $.post('/config/update', {id: item.id, name: item.name, model: 'end'}, function(data){
+          item.action = 'normal'
+        })
+      }
+
+      mvvm.add = function(){
+        mvvm.cs.push({
+          name: '添加端名',
+          action: 'edit',
+          projects: []
+        })
+      }
+      mvvm.destroy = function(end){
+        if(!confirm('确定删除该终端？')){
+          return false
+        }
+        $.post('/config/destroy', {
+          id: end.id,
+          model: 'end'
+        }, function(data){
+          mvvm.cs.$remove(end)
+        })
+      }
+
+      /**
+       * 修改项目
+       */
+      mvvm.editP = function(end, p){
+        p.action = 'edit'
+      }
+
+      mvvm.updateP = function(end, p){
+        $.post('/config/update', {
+          id: end.id,
+          pid: p.id,
+          name: p.name,
+          git: p.git, 
+          repo: p.repo,
+          model: 'project'
+        }, function(data){
+          p.action = 'normal'
+        })
+      }
+       
+      mvvm.addP = function(end){
+        end.projects.push({
+          name: '',
+          git: '',
+          repo: '',
+          action: 'edit'
+        })
+      }
+
+      mvvm.destroyP = function(end, p){
+        if(!confirm('确定删除该项目？')){
+          return false
+        }
+        $.post('/config/destroy', {
+          id: end.id,
+          pid: p.id,
+          model: 'project'
+        }, function(data){
+          end.projects.$remove(p)
+        })
+      }

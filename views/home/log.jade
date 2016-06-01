@@ -1,0 +1,16 @@
+doctype html
+html
+  include ../layout/header
+
+  body
+    header
+      include ../layout/nav
+
+      nav.nav-doc: h3 编译日志
+    
+    div.content
+      each item in log.split('\n')
+        p= item
+      
+
+    include ../layout/footer

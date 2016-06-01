@@ -15,7 +15,7 @@ html
     div.content
       div.list-item
         each item in menu.menu5(params.end, params.project)
-          a(href="#{item.href}" target="_blank")= item.name
+          a.item(href="#{item.href}" target="_blank")= item.name
       
 
     include ../layout/footer

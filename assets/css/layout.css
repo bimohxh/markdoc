@@ -9,6 +9,24 @@ body, a {
 .right{
   float: right;
 }
+.text-center{
+  text-align: center;
+}
+.form-control{
+  padding: 10px;
+  width: 300px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+.btn{
+  border: 1px solid #ccc; background-color: #EEE; padding: 10px 20px; cursor: pointer; outline: none;
+}
+
+textarea{
+  width: 100%; min-height: 300px; outline: none;
+}
 
 header{
  background-color: #fff;    /* box-shadow: 0 0 4px rgba(0,0,0,0.25); */
@@ -41,7 +59,6 @@ nav.nav-doc {
 nav.nav-doc a {
    text-decoration: none;  margin: 10px; font-size: 12px;
 }
-
 
 
 .container{
@@ -145,7 +162,28 @@ table tbody tr:nth-of-type(odd){
   border: #DDD 1px solid;  border-bottom: 0;
 }
 
-.list-item  a{
+.list-item  .item{
   border-bottom: #DDD 1px solid; display: block; height: 100%; text-decoration: none; color: #333;
   padding:  20px;
+}
+
+
+/**
+ * 配置页面
+ */
+
+.config-wraper .oper{
+  color: #DDD; float: right;
+}
+
+.config-wraper .oper i{
+  cursor: pointer; margin-left: 10px;
+}
+
+.config-wraper .es{
+  background-color: #FAFAFA
+}
+
+.config-wraper .ps{
+  color: #989898
 }

@@ -12,10 +12,13 @@ const Koa = require('koa'),
       qs = require('querystring'),
       fs = require("fs"),
       marked = require('marked'),
-      menu = require('./lib/menu');
+      menu = require('./lib/menu'),
+      exec = require('child_process').execSync,
+      bodyParser = require('koa-bodyparser');
 
 
 
+app.use(bodyParser());
 
 // 静态文件服务
 app.use(mount('/assets', serve(__dirname + '/assets')));
@@ -44,6 +47,108 @@ let renderAction = async (ctx, controller, action, extra)=> {
   }, extra))
 }
 
+router.get('/log', async (ctx, next) =>{
+  let log = fs.readFileSync('./log/build.log', {encoding : 'utf8'}) 
+  await renderAction(ctx, 'home', 'log', {log: log})
+});
+
+// -配置
+router.get('/config', async (ctx, next) =>{
+  await renderAction(ctx, 'home', 'config')
+});
+
+router.post('/config', async (ctx, next) =>{
+  ctx.body = require('./project.config.json')
+});
+
+router.post('/config/update', async (ctx, next) =>{
+  let config = require('./project.config.json')
+  let req = ctx.request.body
+
+  let end = _.find(config, (item)=> {
+    return item.id == req.id
+  })
+  // 更新/添加终端
+  if(req.model == 'end'){
+    if (end) {
+      try{
+        fs.renameSync(__dirname + '/markdown/' + end.name, __dirname + '/markdown/' + req.name)
+      } catch(err) {}
+      end.name = req.name
+    }
+    else{
+      let id = config[config.length - 1].id + 1
+      config.push({
+        name: req.name,
+        id: id,
+        projects: []
+      })
+    }
+  }
+
+  // 更新/添加项目
+  if(req.model == 'project'){
+    let project = _.find(end.projects, (item)=> {
+      return item.id == req.pid
+    })
+    if(project) {
+      if(project.name != req.name){
+        try{
+          fs.renameSync(__dirname + '/markdown/' + end.name + '/' + project.name, __dirname + '/markdown/' + end.name + '/' + req.name)
+        } catch(err) {}
+      }
+      if(project.git != req.git){
+        try{
+          fs.renameSync(__dirname + '/markdown/' + end.name + '/' + req.name, __dirname + '/markdown/' + end.name + '/_removed_' + req.name)
+        } catch(err) {}
+      }
+      project.name = req.name
+      project.git = req.git
+      project.repo = req.repo
+    }else{
+      let last = end.projects[end.projects.length - 1]
+      let id = last ? last.id + 1 : 1
+      end.projects.push({
+        id: id,
+        name: req.name,
+        git: req.git,
+        repo: req.repo
+      })
+    }
+    
+  }
+
+  fs.writeFileSync('./project.config.json', JSON.stringify(config)); 
+  ctx.body = {status: 'ok'}
+});
+
+router.post('/config/destroy', async (ctx, next) =>{
+  let config = require('./project.config.json')
+  let req = ctx.request.body
+
+  let end = _.find(config, (item)=> {
+    return item.id == req.id
+  })
+  // 删除终端
+  if(req.model == 'end'){
+    config = _.without(config, end)
+  }
+
+  // 删除项目
+  if(req.model == 'project'){
+    let project = _.find(end.projects, (item)=> {
+      return item.id == req.pid
+    })
+
+    end.projects = _.without(end.projects, project)
+  }
+
+  fs.writeFileSync('./project.config.json', JSON.stringify(config)); 
+  ctx.body = {status: 'ok'}
+});
+
+
+//- 帮助
 router.get('/help', async (ctx, next) =>{
   ctx.redirect(encodeURI('http://' + ctx.host + menu.menu6()[0].href))
 });
