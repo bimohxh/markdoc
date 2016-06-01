@@ -43,8 +43,8 @@ let makeDoc = ()=> {
 }
 
 makeDoc().then(()=> {
-  exec('pm2 restart app.js ')
-  console.log('重启服务器成功')
+  //exec('pm2 restart app.js ')
+  //console.log('重启服务器成功')
 })
 
 
