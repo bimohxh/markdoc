@@ -147,6 +147,13 @@ router.post('/config/destroy', async (ctx, next) =>{
   ctx.body = {status: 'ok'}
 });
 
+router.get('/reset', async (ctx, next) =>{
+  const exec = require('child_process').execSync
+  exec('npm run reset')
+  ctx.redirect('/log')
+  
+});
+
 
 //- 帮助
 router.get('/help', async (ctx, next) =>{
@@ -207,6 +214,9 @@ router.get('/:end/:project/:doc', async (ctx, next) =>{
   }
   
 });
+
+
+
 
 
 app

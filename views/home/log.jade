@@ -5,12 +5,21 @@ html
   body
     header
       include ../layout/nav
-
+        
       nav.nav-doc: h3 编译日志
     
     div.content
       each item in log.split('\n')
         p= item
+
+      a#resetBtn.btn(href="/reset")  重置项目 
       
 
+    
     include ../layout/footer
+    script.
+      $(function(){
+        $('#resetBtn').click(function(){
+          if(!confirm('确定要重置所有项目吗？')){return false}
+        })
+      })
