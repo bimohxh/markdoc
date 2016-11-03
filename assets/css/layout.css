@@ -49,15 +49,24 @@ nav.top {
 }
 
 nav.top a {
-   text-decoration: none;  margin: 0 10px; font-size: 12px;
+   text-decoration: none;  margin: 0 10px; font-size: 12px;   
+   padding-bottom: 11px;
 }
+nav.top a.active
+ {
+    border-bottom: #42b983 4px solid;
+ }
 
 nav.nav-doc {
    padding: 20px; text-align: center; margin-top: 20px;
 }
 
 nav.nav-doc a {
-   text-decoration: none;  margin: 10px; font-size: 12px;
+   text-decoration: none;  margin: 10px; font-size: 12px;    padding-bottom: 5px;
+}
+
+nav.nav-doc a.active {
+   border-bottom: #42b983 3px solid;
 }
 
 
@@ -93,6 +102,7 @@ nav.nav-doc a {
 
 .leftbar.fixed{
   position: fixed;
+  overflow-y: scroll
 }
 
 code{

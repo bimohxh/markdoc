@@ -1,7 +1,7 @@
 nav.top
   a(href="/" style="font-size: 20px"): i.fa.fa-home
-  each item in menu.menu1
-    a(href="#{item.href}")= item.name
+  each item in menu.menu1 
+    a(href="#{item.href}" class="#{params.end == item.name ? 'active' : ''}")= item.name
   
   a.right(href="/help") 使用帮助
   a.right(href="/log") 编译日志

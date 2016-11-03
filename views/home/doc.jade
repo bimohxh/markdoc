@@ -8,7 +8,7 @@ html
 
       nav.nav-doc
         each item in menu.menu3(params.end, params.project)
-          a(href="#{item.href}")= item.name
+          a(href="#{item.href}" class="#{params.doc == item.name ? 'active' : ''}")= item.name
 
       //- h2= params.end
 
